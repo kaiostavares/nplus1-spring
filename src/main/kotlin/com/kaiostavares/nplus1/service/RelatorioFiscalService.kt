@@ -20,4 +20,15 @@ class RelatorioFiscalService (
             ResumoFiscalResponse(investidor.nome, resumosCarteira)
         }.toSet()
     }
+
+    @Transactional(readOnly = true)
+    fun gerarRelatorioOtimizado(): Set<ResumoFiscalResponse> {
+        val investidores = investidorRepository.buscarTodosComInvestimentos()
+        return investidores.map { investidor ->
+            val resumosCarteira = investidor.carteiras.map { carteira ->
+                CarteiraDTO(carteira.nome, carteira.totalMovimentado())
+            }
+            ResumoFiscalResponse(investidor.nome, resumosCarteira)
+        }.toSet()
+    }
 }

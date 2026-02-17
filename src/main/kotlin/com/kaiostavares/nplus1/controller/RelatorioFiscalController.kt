@@ -12,9 +12,15 @@ import org.springframework.web.bind.annotation.RestController
 class RelatorioFiscalController(
     private val service: RelatorioFiscalService
 ) {
-   @GetMapping
-   fun gerarRelatorio(): ResponseEntity<Set<ResumoFiscalResponse>> {
-       val relatorio = service.gerarRelatorio()
-       return ResponseEntity.ok(relatorio)
-   }
+    @GetMapping
+    fun gerarRelatorio(): ResponseEntity<Set<ResumoFiscalResponse>> {
+        val relatorio = service.gerarRelatorio()
+        return ResponseEntity.ok(relatorio)
+    }
+
+    @GetMapping("/otimizado")
+    fun gerarRelatorioOtimizado(): ResponseEntity<Set<ResumoFiscalResponse>> {
+        val relatorio = service.gerarRelatorioOtimizado()
+        return ResponseEntity.ok(relatorio)
+    }
 }
