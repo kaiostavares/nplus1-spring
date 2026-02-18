@@ -23,4 +23,10 @@ class RelatorioFiscalController(
         val relatorio = service.gerarRelatorioOtimizado()
         return ResponseEntity.ok(relatorio)
     }
+
+    @GetMapping("/ultra-otimizado")
+    fun gerarRelatorioUltraOtimizado(): ResponseEntity<Set<ResumoFiscalResponse>> {
+        val relatorio = service.gerarRelatorioComProjecao()
+        return ResponseEntity.ok(relatorio)
+    }
 }
