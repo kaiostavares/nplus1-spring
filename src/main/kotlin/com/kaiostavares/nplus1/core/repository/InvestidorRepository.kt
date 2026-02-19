@@ -2,6 +2,8 @@ package com.kaiostavares.nplus1.core.repository
 
 import com.kaiostavares.nplus1.core.entity.Investidor
 import com.kaiostavares.nplus1.dto.InvestidorResumoDTO
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -30,4 +32,15 @@ interface InvestidorRepository : JpaRepository<Investidor, Long> {
         GROUP BY i.id, i.nome, c.id, c.nome
     """)
     fun buscarRelatorioResumido(): List<InvestidorResumoDTO>
+
+    @Query("SELECT i.id FROM Investidor i")
+    fun buscarIdsPaginado(pageable: Pageable): Page<Long>
+
+    @Query("""
+        SELECT DISTINCT i FROM Investidor i
+        LEFT JOIN FETCH i.carteiras c
+        LEFT JOIN FETCH c.ordens
+        WHERE i.id IN :ids
+    """)
+    fun buscarTodosComInvestimentosPorIds(ids: List<Long>): List<Investidor>
 }
